@@ -5,6 +5,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const dns = require('dns');
 const { MongoClient } = require('mongodb');
+const nanoid = require('nanoid');
 
 const databaseUrl = process.env.DATABASE;
 
@@ -18,6 +19,21 @@ MongoClient.connect(databaseUrl, { useNewUrlParser: true })
     app.locals.db = client.db('shortener');
   })
   .catch(() => console.error('Failed to connect to the database'));
+
+const shortenURL = (db, url) => {
+  const shortenedURLs = db.collection('shortenedURLs');
+  return shortenedURLs.findOneAndUpdate({
+    original_url: url
+  }, {
+    $setOnInsert: {
+      original_url: url,
+      short_id: nanoid(7),
+    },
+  }, {
+    returnOriginal: false,
+    upsert: true,
+  });
+};
 
 app.get('/', (req, res) => {
   const htmlPath = path.join(__dirname, 'public', 'index.html');
