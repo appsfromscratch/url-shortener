@@ -14,7 +14,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
-MongoClient.connect(databaseUrl, { useNewUrlParser: true })
+MongoClient.connect(databaseUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(client => {
     app.locals.db = client.db('shortener');
   })
