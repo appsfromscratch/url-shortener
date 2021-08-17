@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/freshman-tech/url-shortener#readme",
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "nodemon": "^2.0.12"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
